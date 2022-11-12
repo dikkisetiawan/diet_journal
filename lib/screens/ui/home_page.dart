@@ -44,7 +44,8 @@ AppBar myAppBar() {
 //title header separator
 Widget titleDivider(String title, String buttonTitle) {
   return Container(
-    margin: const EdgeInsets.only(bottom: 20),
+    margin: const EdgeInsets.only(
+        bottom: 20, left: defaultMargin, right: defaultMargin),
     child: Row(
       children: [
         Text(
@@ -66,7 +67,8 @@ Widget titleDivider(String title, String buttonTitle) {
 
 Widget statContainer() {
   return Container(
-    margin: const EdgeInsets.only(bottom: defaultMargin),
+    margin: const EdgeInsets.only(
+        bottom: defaultMargin, left: defaultMargin, right: defaultMargin),
     padding: const EdgeInsets.all(defaultMargin),
     decoration: const BoxDecoration(
         boxShadow: [
@@ -93,14 +95,18 @@ Widget statContainer() {
             circularIndicator()
           ],
         ),
-        const Divider(
+        Divider(
           height: 50.0,
-          color: Colors.grey,
+          color: kGreyColor.withOpacity(0.5),
           thickness: 1.0,
         ),
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [indicatorWidget(), indicatorWidget(), indicatorWidget()],
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            indicatorWidget('Carbs', 12, kPrimaryColor),
+            indicatorWidget('Protein', 30, kSecondaryColor),
+            indicatorWidget('Fat', 10, kOrangeColor)
+          ],
         )
       ],
     ),
@@ -140,10 +146,33 @@ Widget circularIndicator() {
   );
 }
 
-Widget indicatorWidget() {
+Widget indicatorWidget(String title, int number, Color mainColor) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
-    children: [const Text('Carbs'), const Text('12g left')],
+    children: [
+      Text(
+        title,
+        style: blackTextStyle.copyWith(fontSize: 18.0),
+      ),
+      SizedBox(
+        height: 10.0,
+      ),
+      LinearPercentIndicator(
+        padding: EdgeInsets.all(0.0),
+        alignment: MainAxisAlignment.start,
+        width: 50.0,
+        lineHeight: 4.0,
+        percent: 0.5,
+        progressColor: mainColor,
+      ),
+      SizedBox(
+        height: 10.0,
+      ),
+      Text(
+        '${number}g left',
+        style: greyTextStyle.copyWith(fontSize: 14),
+      )
+    ],
   );
 }
 
@@ -152,15 +181,37 @@ Widget eatenWidget() {
     margin: const EdgeInsets.only(top: 10.0),
     child: Row(
       children: [
+        Container(
+          margin: const EdgeInsets.only(right: 15.0),
+          width: 3.0,
+          height: 40.0,
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                kPrimaryColor.withOpacity(0.4),
+                kSecondaryColor.withOpacity(0.4)
+              ])),
+        ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Eaten'),
+            Text(
+              'Eaten',
+              style: greyTextStyle.copyWith(fontSize: 14.0),
+            ),
             Row(
               children: [
                 const Icon(Icons.abc),
-                const Text(' 1127'),
-                const Text(' kcal')
+                Text(
+                  '  1127  ',
+                  style: blackTextStyle.copyWith(fontSize: 18.0),
+                ),
+                Text(
+                  ' kcal',
+                  style: greyTextStyle.copyWith(fontSize: 12.0),
+                )
               ],
             )
           ],
@@ -188,8 +239,9 @@ Widget mealListCategory() {
 Widget mealCategoryItem() {
   return Stack(children: [
     Container(
-      width: 150,
-      margin: const EdgeInsets.only(top: 30, bottom: 20, left: 30),
+      width: 140,
+      margin:
+          const EdgeInsets.only(top: 30, bottom: 20, left: defaultMargin - 10),
       padding: const EdgeInsets.all(30.0),
       decoration: const BoxDecoration(
           boxShadow: [
@@ -232,8 +284,7 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.grey[200],
         appBar: myAppBar(),
         body: ListView(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+            padding: const EdgeInsets.symmetric(vertical: 10.0),
             children: [
               titleDivider('Mediterranean diet', 'Details'),
               statContainer(),
