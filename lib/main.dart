@@ -2,6 +2,7 @@ import 'package:diet_journal/screens/theme.dart';
 import 'package:flutter/material.dart';
 
 import 'screens/ui/home_page.dart';
+import 'screens/ui/training_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -48,7 +49,7 @@ class NavBarState extends State<NavBar> {
     return Scaffold(
       body: Stack(
         children: [
-          selectedIndex == 0 ? HomePage() : Text('data'),
+          selectedIndex == 0 ? HomePage() : TrainingPage(),
           //this is the code for the widget container that comes from behind the floating action button (FAB)
           Align(
             alignment: FractionalOffset.bottomCenter,

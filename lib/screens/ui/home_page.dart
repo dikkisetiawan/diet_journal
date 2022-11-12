@@ -1,70 +1,42 @@
-import 'dart:ui';
+import 'package:diet_journal/screens/widgets/k_app_bar.dart';
 
+import '../widgets/title_divider.dart';
 import '/screens/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-AppBar myAppBar() {
-  return AppBar(
-    elevation: 0.0,
-    backgroundColor: kBackgroundColor,
-    title: Text(
-      'My Diary',
-      style: blackTextStyle.copyWith(fontWeight: black),
-    ),
-    centerTitle: false,
-    actions: [
-      IconButton(
-          onPressed: () {},
-          icon: Icon(
-            Icons.arrow_back,
-            color: kGreyColor,
-          )),
-      IconButton(
-          onPressed: () {},
-          icon: const Icon(Icons.calendar_month),
-          color: kGreyColor),
-      Center(
-        child: Text(
-          '15 May',
-          style: greyTextStyle,
-        ),
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: kBackgroundColor,
+        appBar: kAppBar().myAppBar('My Diary'),
+        body: ListView(
+            physics: BouncingScrollPhysics(),
+            padding: const EdgeInsets.symmetric(vertical: 10.0),
+            children: [
+              TitleDivider(
+                title: 'Mediterranean diet',
+                buttonTitle: 'Details',
+              ),
+              statContainer(),
+              TitleDivider(
+                title: 'Meals Today',
+                buttonTitle: 'Customize',
+              ),
+              mealListCategory(),
+              TitleDivider(
+                title: 'Body Measurements',
+                buttonTitle: 'Today',
+              ),
+              statContainer(),
+            ]),
       ),
-      IconButton(
-          onPressed: () {}, icon: Icon(Icons.arrow_forward, color: kGreyColor)),
-    ],
-  );
-}
-
-//title header separator
-Widget titleDivider(String title, String buttonTitle) {
-  return Container(
-    margin: const EdgeInsets.only(
-        bottom: 20, left: defaultMargin, right: defaultMargin),
-    child: Row(
-      children: [
-        Text(
-          title,
-          style: greyTextStyle,
-        ),
-        const Spacer(),
-        TextButton(
-            onPressed: () {},
-            child: Text(
-              buttonTitle,
-              style: buttonTextStyle,
-            )),
-        const Icon(Icons.arrow_forward)
-      ],
-    ),
-  );
+    );
+  }
 }
 
 Widget statContainer() {
@@ -231,8 +203,11 @@ Widget mealListCategory() {
         mealCategoryItem(
             title: 'Snack',
             description: 'Recommended 800 ',
-            number: 602,
             colors: [kSecondaryColor, Colors.pinkAccent.shade200]),
+        mealCategoryItem(
+            title: 'Dinner',
+            description: 'Recommended 703 ',
+            colors: [kPrimaryColor, Colors.blue.shade200]),
       ],
     ),
   );
@@ -241,7 +216,7 @@ Widget mealListCategory() {
 Widget mealCategoryItem(
     {required String title,
     required String description,
-    required int number,
+    int? number,
     required List<Color> colors}) {
   return Stack(
     children: [
@@ -293,11 +268,18 @@ Widget mealCategoryItem(
                     style: whiteTextStyle,
                   ),
                   Spacer(),
-                  Text(
-                    number.toString(),
-                    style: whiteTextStyle.copyWith(
-                        fontWeight: extraBold, fontSize: 30),
-                  )
+                  number == null
+                      ? IconButton(
+                          onPressed: () {},
+                          icon: Icon(Icons.add_circle_rounded,
+                              color: kWhiteColor,
+                              size: 50.0,
+                              shadows: [kShadow]))
+                      : Text(
+                          number.toString(),
+                          style: whiteTextStyle.copyWith(
+                              fontWeight: extraBold, fontSize: 30),
+                        )
                 ],
               ),
             )
@@ -307,27 +289,4 @@ Widget mealCategoryItem(
       Positioned(top: -5, left: 20, child: FlutterLogo(size: 70)),
     ],
   );
-}
-
-class _HomePageState extends State<HomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.grey[200],
-        appBar: myAppBar(),
-        body: ListView(
-            physics: BouncingScrollPhysics(),
-            padding: const EdgeInsets.symmetric(vertical: 10.0),
-            children: [
-              titleDivider('Mediterranean diet', 'Details'),
-              statContainer(),
-              titleDivider('Meals Today', 'Customize'),
-              mealListCategory(),
-              titleDivider('Body Measurement', 'Today'),
-              statContainer(),
-            ]),
-      ),
-    );
-  }
 }
