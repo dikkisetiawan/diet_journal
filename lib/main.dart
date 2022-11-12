@@ -1,3 +1,4 @@
+import 'package:diet_journal/screens/theme.dart';
 import 'package:flutter/material.dart';
 
 import 'screens/ui/home_page.dart';
@@ -61,7 +62,7 @@ class NavBarState extends State<NavBar> {
               decoration: BoxDecoration(
                   borderRadius:
                       BorderRadius.circular(clickedCentreFAB ? 0.0 : 300.0),
-                  color: Colors.blue),
+                  color: kPrimaryColor),
             ),
           )
         ],
@@ -69,6 +70,7 @@ class NavBarState extends State<NavBar> {
       floatingActionButtonLocation: FloatingActionButtonLocation
           .centerDocked, //specify the location of the FAB
       floatingActionButton: FloatingActionButton(
+        backgroundColor: kPrimaryColor,
         onPressed: () {
           setState(() {
             clickedCentreFAB =
@@ -83,9 +85,10 @@ class NavBarState extends State<NavBar> {
         ),
       ),
       bottomNavigationBar: BottomAppBar(
+        elevation: 10.0,
         shape: const CircularNotchedRectangle(),
         //color of the BottomAppBar
-        color: Colors.white,
+        color: kWhiteColor,
         child: Container(
           margin: const EdgeInsets.only(left: 12.0, right: 12.0),
           child: Row(
@@ -101,9 +104,7 @@ class NavBarState extends State<NavBar> {
                 icon: Icon(
                   Icons.home,
                   //darken the icon if it is selected or else give it a different color
-                  color: selectedIndex == 0
-                      ? Colors.blue.shade900
-                      : Colors.grey.shade400,
+                  color: selectedIndex == 0 ? kPrimaryColor : kGreyColor,
                 ),
               ),
               IconButton(
@@ -113,9 +114,7 @@ class NavBarState extends State<NavBar> {
                 iconSize: 27.0,
                 icon: Icon(
                   Icons.call_made,
-                  color: selectedIndex == 1
-                      ? Colors.blue.shade900
-                      : Colors.grey.shade400,
+                  color: selectedIndex == 1 ? kPrimaryColor : kGreyColor,
                 ),
               ),
               //to leave space in between the bottom app bar items and below the FAB
@@ -129,9 +128,7 @@ class NavBarState extends State<NavBar> {
                 iconSize: 27.0,
                 icon: Icon(
                   Icons.call_received,
-                  color: selectedIndex == 2
-                      ? Colors.blue.shade900
-                      : Colors.grey.shade400,
+                  color: selectedIndex == 2 ? kPrimaryColor : kGreyColor,
                 ),
               ),
               IconButton(
@@ -141,9 +138,7 @@ class NavBarState extends State<NavBar> {
                 iconSize: 27.0,
                 icon: Icon(
                   Icons.settings,
-                  color: selectedIndex == 3
-                      ? Colors.blue.shade900
-                      : Colors.grey.shade400,
+                  color: selectedIndex == 3 ? kPrimaryColor : kGreyColor,
                 ),
               ),
             ],

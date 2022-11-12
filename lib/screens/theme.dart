@@ -45,3 +45,15 @@ TextStyle buttonTextStyle =
 const defaultCircular = 15.0;
 const defaultTopLeftCircular = 100.0;
 const defaultMargin = 30.0;
+
+BoxShadow kShadow = BoxShadow(
+    blurRadius: 7.0,
+    color: Colors.grey.withOpacity(0.2),
+    spreadRadius: 5.0,
+    offset: Offset(0, 4));
+
+const kBorderRadius = BorderRadius.only(
+    bottomLeft: Radius.circular(10.0),
+    topLeft: Radius.circular(10.0),
+    bottomRight: Radius.circular(10.0),
+    topRight: Radius.circular(100.0));

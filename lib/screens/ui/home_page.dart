@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import '/screens/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
@@ -70,20 +72,8 @@ Widget statContainer() {
     margin: const EdgeInsets.only(
         bottom: defaultMargin, left: defaultMargin, right: defaultMargin),
     padding: const EdgeInsets.all(defaultMargin),
-    decoration: const BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-              blurRadius: 10,
-              color: Colors.grey,
-              spreadRadius: 0.0,
-              offset: Offset.zero)
-        ],
-        color: Colors.white,
-        borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(defaultCircular),
-            topLeft: Radius.circular(defaultCircular),
-            bottomRight: Radius.circular(defaultCircular),
-            topRight: Radius.circular(defaultTopLeftCircular))),
+    decoration: BoxDecoration(
+        boxShadow: [kShadow], color: Colors.white, borderRadius: kBorderRadius),
     child: Column(
       children: [
         Row(
@@ -91,7 +81,7 @@ Widget statContainer() {
             Column(
               children: [eatenWidget(), eatenWidget()],
             ),
-            Spacer(),
+            const Spacer(),
             circularIndicator()
           ],
         ),
@@ -225,55 +215,98 @@ Widget mealListCategory() {
   return Container(
     height: 280,
     child: ListView(
+      physics: BouncingScrollPhysics(),
       scrollDirection: Axis.horizontal,
       children: [
-        mealCategoryItem(),
-        mealCategoryItem(),
-        mealCategoryItem(),
-        mealCategoryItem()
+        mealCategoryItem(
+            title: 'Breakfast',
+            description: 'Bread, Peanut Butter, Apple',
+            number: 525,
+            colors: [kOrangeColor, Colors.orange.shade200]),
+        mealCategoryItem(
+            title: 'Lunch',
+            description: 'Salmon, Mixed Veggies,Avocado',
+            number: 602,
+            colors: [kPrimaryColor, Colors.lightBlueAccent.shade200]),
+        mealCategoryItem(
+            title: 'Snack',
+            description: 'Recommended 800 ',
+            number: 602,
+            colors: [kSecondaryColor, Colors.pinkAccent.shade200]),
       ],
     ),
   );
 }
 
-Widget mealCategoryItem() {
-  return Stack(children: [
-    Container(
-      width: 140,
-      margin:
-          const EdgeInsets.only(top: 30, bottom: 20, left: defaultMargin - 10),
-      padding: const EdgeInsets.all(30.0),
-      decoration: const BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-                blurRadius: 10,
-                color: Colors.grey,
-                spreadRadius: 0.0,
-                offset: Offset.zero)
+Widget mealCategoryItem(
+    {required String title,
+    required String description,
+    required int number,
+    required List<Color> colors}) {
+  return Stack(
+    children: [
+      Container(
+        width: 140,
+        margin: const EdgeInsets.only(
+            top: defaultMargin,
+            bottom: defaultMargin,
+            left: defaultMargin - 10),
+        decoration: BoxDecoration(
+            boxShadow: [kShadow],
+            gradient: LinearGradient(
+                begin: Alignment.bottomRight,
+                end: Alignment.topLeft,
+                colors: colors),
+            borderRadius: kBorderRadius),
+        child: Stack(
+          children: [
+            Positioned(
+                top: -60,
+                left: -50,
+                //positioned helps to position widget wherever we want.
+                //position of the widget
+                child: Container(
+                    height: 120,
+                    width: 120,
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: kWhiteColor
+                            .withOpacity(0.3) //background color with opacity
+                        ))),
+            Padding(
+              padding: const EdgeInsets.all(defaultMargin - 10),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Spacer(
+                    flex: 5,
+                  ),
+                  Text(
+                    title,
+                    style: whiteTextStyle.copyWith(
+                        fontWeight: extraBold, fontSize: 20),
+                  ),
+                  Spacer(),
+                  Text(
+                    description,
+                    style: whiteTextStyle,
+                  ),
+                  Spacer(),
+                  Text(
+                    number.toString(),
+                    style: whiteTextStyle.copyWith(
+                        fontWeight: extraBold, fontSize: 30),
+                  )
+                ],
+              ),
+            )
           ],
-          color: Colors.orangeAccent,
-          borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(10.0),
-              topLeft: Radius.circular(10.0),
-              bottomRight: Radius.circular(10.0),
-              topRight: Radius.circular(100.0))),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Spacer(
-            flex: 2,
-          ),
-          Text('Breakfast'),
-          Spacer(),
-          Text('Bread, Peanut Butter,  Apple'),
-          Spacer(),
-          Text('525kcal')
-        ],
+        ),
       ),
-    ),
-    Positioned(width: 150, child: FlutterLogo(size: 50)),
-  ]);
+      Positioned(top: -5, left: 20, child: FlutterLogo(size: 70)),
+    ],
+  );
 }
 
 class _HomePageState extends State<HomePage> {
@@ -284,6 +317,7 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.grey[200],
         appBar: myAppBar(),
         body: ListView(
+            physics: BouncingScrollPhysics(),
             padding: const EdgeInsets.symmetric(vertical: 10.0),
             children: [
               titleDivider('Mediterranean diet', 'Details'),
