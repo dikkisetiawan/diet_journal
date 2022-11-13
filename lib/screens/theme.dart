@@ -46,11 +46,12 @@ const defaultCircular = 15.0;
 const defaultTopLeftCircular = 100.0;
 const defaultMargin = 30.0;
 
+//shadow Value
 BoxShadow kShadow = BoxShadow(
-    blurRadius: 7.0,
-    color: Colors.grey.withOpacity(0.2),
+    blurRadius: 20.0,
+    color: Colors.black.withOpacity(0.2),
     spreadRadius: 5.0,
-    offset: Offset(0, 4));
+    offset: Offset(5, 10));
 
 const kBorderRadius = BorderRadius.only(
     bottomLeft: Radius.circular(10.0),
