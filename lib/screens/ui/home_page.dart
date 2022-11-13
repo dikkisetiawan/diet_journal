@@ -1,6 +1,7 @@
 import 'package:diet_journal/screens/widgets/k_app_bar.dart';
 
 import '../widgets/title_divider.dart';
+import '../widgets/rounded_top_right_container.dart';
 import '/screens/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
@@ -10,68 +11,59 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: kBackgroundColor,
-        appBar: kAppBar().myAppBar('My Diary'),
-        body: ListView(
-            physics: BouncingScrollPhysics(),
-            padding: const EdgeInsets.symmetric(vertical: 10.0),
-            children: [
-              TitleDivider(
-                title: 'Mediterranean diet',
-                buttonTitle: 'Details',
-              ),
-              statContainer(),
-              TitleDivider(
-                title: 'Meals Today',
-                buttonTitle: 'Customize',
-              ),
-              mealListCategory(),
-              TitleDivider(
-                title: 'Body Measurements',
-                buttonTitle: 'Today',
-              ),
-              statContainer(),
-            ]),
-      ),
+    return Scaffold(
+      backgroundColor: kBackgroundColor,
+      appBar: kAppBar().myAppBar('My Diary'),
+      body: ListView(
+          physics: BouncingScrollPhysics(),
+          padding: const EdgeInsets.symmetric(vertical: 10.0),
+          children: [
+            TitleDivider(
+              title: 'Mediterranean diet',
+              buttonTitle: 'Details',
+            ),
+            RoundedTopRightContainer(child: mainStat()),
+            TitleDivider(
+              title: 'Meals Today',
+              buttonTitle: 'Customize',
+            ),
+            mealListCategory(),
+            TitleDivider(
+              title: 'Body Measurements',
+              buttonTitle: 'Today',
+            ),
+            RoundedTopRightContainer(child: mainStat()),
+          ]),
     );
   }
 }
 
-Widget statContainer() {
-  return Container(
-    margin: const EdgeInsets.only(
-        bottom: defaultMargin, left: defaultMargin, right: defaultMargin),
-    padding: const EdgeInsets.all(defaultMargin),
-    decoration: BoxDecoration(
-        boxShadow: [kShadow], color: Colors.white, borderRadius: kBorderRadius),
-    child: Column(
-      children: [
-        Row(
-          children: [
-            Column(
-              children: [eatenWidget(), eatenWidget()],
-            ),
-            const Spacer(),
-            circularIndicator()
-          ],
-        ),
-        Divider(
-          height: 50.0,
-          color: kGreyColor.withOpacity(0.5),
-          thickness: 1.0,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            indicatorWidget('Carbs', 12, kPrimaryColor),
-            indicatorWidget('Protein', 30, kSecondaryColor),
-            indicatorWidget('Fat', 10, kOrangeColor)
-          ],
-        )
-      ],
-    ),
+Widget mainStat() {
+  return Column(
+    children: [
+      Row(
+        children: [
+          Column(
+            children: [consumedWiget(), consumedWiget()],
+          ),
+          const Spacer(),
+          circularIndicator()
+        ],
+      ),
+      Divider(
+        height: 50.0,
+        color: kGreyColor.withOpacity(0.5),
+        thickness: 1.0,
+      ),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          indicatorWidget('Carbs', 12, kPrimaryColor),
+          indicatorWidget('Protein', 30, kSecondaryColor),
+          indicatorWidget('Fat', 10, kOrangeColor)
+        ],
+      )
+    ],
   );
 }
 
@@ -138,7 +130,7 @@ Widget indicatorWidget(String title, int number, Color mainColor) {
   );
 }
 
-Widget eatenWidget() {
+Widget consumedWiget() {
   return Container(
     margin: const EdgeInsets.only(top: 10.0),
     child: Row(
@@ -203,7 +195,7 @@ Widget mealListCategory() {
         mealCategoryItem(
             title: 'Snack',
             description: 'Recommended 800 ',
-            colors: [kSecondaryColor, Colors.pinkAccent.shade200]),
+            colors: [kSecondaryColor, Colors.pinkAccent.withOpacity(0.7)]),
         mealCategoryItem(
             title: 'Dinner',
             description: 'Recommended 703 ',
