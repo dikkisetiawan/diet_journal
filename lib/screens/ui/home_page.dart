@@ -44,7 +44,10 @@ Widget mainStat() {
       Row(
         children: [
           Column(
-            children: [consumedWiget(), consumedWiget()],
+            children: [
+              consumedWiget('Eaten', 1127, 'myassets/noodle.png'),
+              consumedWiget('Burned', 102, 'myassets/fire.png')
+            ],
           ),
           const Spacer(),
           circularIndicator()
@@ -130,9 +133,9 @@ Widget indicatorWidget(String title, int number, Color mainColor) {
   );
 }
 
-Widget consumedWiget() {
+Widget consumedWiget(String title, int number, String assetName) {
   return Container(
-    margin: const EdgeInsets.only(top: 10.0),
+    margin: const EdgeInsets.only(top: 20.0),
     child: Row(
       children: [
         Container(
@@ -152,14 +155,17 @@ Widget consumedWiget() {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Eaten',
+              title,
               style: greyTextStyle.copyWith(fontSize: 14.0),
+            ),
+            SizedBox(
+              height: 10.0,
             ),
             Row(
               children: [
-                const Icon(Icons.abc),
+                Image(width: 20, height: 20, image: AssetImage(assetName)),
                 Text(
-                  '  1127  ',
+                  '  $number  ',
                   style: blackTextStyle.copyWith(fontSize: 18.0),
                 ),
                 Text(
@@ -186,20 +192,24 @@ Widget mealListCategory() {
             title: 'Breakfast',
             description: 'Bread, Peanut Butter, Apple',
             number: 525,
-            colors: [kOrangeColor, Colors.orange.shade200]),
+            colors: [kOrangeColor, Colors.orange.shade200],
+            assetName: 'myassets/breakfast.png'),
         mealCategoryItem(
             title: 'Lunch',
             description: 'Salmon, Mixed Veggies,Avocado',
             number: 602,
-            colors: [kPrimaryColor, Colors.lightBlueAccent.shade200]),
+            colors: [kPrimaryColor, Colors.lightBlueAccent.shade200],
+            assetName: 'myassets/lunch.png'),
         mealCategoryItem(
             title: 'Snack',
             description: 'Recommended 800 ',
-            colors: [kSecondaryColor, Colors.pinkAccent.withOpacity(0.7)]),
+            colors: [kSecondaryColor, Colors.pinkAccent.withOpacity(0.7)],
+            assetName: 'myassets/watermelon.png'),
         mealCategoryItem(
             title: 'Dinner',
             description: 'Recommended 703 ',
-            colors: [kPrimaryColor, Colors.blue.shade200]),
+            colors: [kPrimaryColor, Colors.blue.shade200],
+            assetName: 'myassets/beef.png'),
       ],
     ),
   );
@@ -209,7 +219,8 @@ Widget mealCategoryItem(
     {required String title,
     required String description,
     int? number,
-    required List<Color> colors}) {
+    required List<Color> colors,
+    required String assetName}) {
   return Stack(
     children: [
       Container(
@@ -227,6 +238,7 @@ Widget mealCategoryItem(
             borderRadius: kBorderRadius),
         child: Stack(
           children: [
+            //white circle
             Positioned(
                 top: -60,
                 left: -50,
@@ -278,7 +290,20 @@ Widget mealCategoryItem(
           ],
         ),
       ),
-      Positioned(top: -5, left: 20, child: FlutterLogo(size: 70)),
+      Positioned(
+          top: 5,
+          left: 20,
+          child: Container(
+              //imitate the image shadow
+              decoration: BoxDecoration(shape: BoxShape.circle, boxShadow: [
+                BoxShadow(
+                    blurRadius: 20.0,
+                    color: Colors.black38.withOpacity(0.2),
+                    spreadRadius: 2.0,
+                    offset: Offset(8.0, 8.0))
+              ]),
+              child:
+                  Image(width: 60, height: 70, image: AssetImage(assetName)))),
     ],
   );
 }
