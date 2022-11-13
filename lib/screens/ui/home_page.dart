@@ -119,8 +119,9 @@ Widget indicatorWidget(String title, int number, Color mainColor) {
         alignment: MainAxisAlignment.start,
         width: 50.0,
         lineHeight: 4.0,
-        percent: 0.5,
-        progressColor: mainColor,
+        percent: 0.8,
+        linearGradient:
+            LinearGradient(colors: [mainColor, mainColor.withOpacity(0.1)]),
       ),
       SizedBox(
         height: 10.0,
